@@ -3,7 +3,22 @@ import { View, Text, StyleSheet } from 'react-native'
 import { SvgUri } from 'react-native-svg'
 import Icon from 'react-native-vector-icons/Ionicons'
 
-const getIconProps = (props) => {
+interface TokenItemListProps {
+  latestPrice: number
+  color: string
+  name: string
+  logo: string
+  currencySymbol: string
+  day: string
+}
+
+interface IconProps {
+  name: string
+  size: number
+  color: string
+}
+
+const getIconProps = (props: TokenItemListProps): IconProps => {
   return {
     name: parseFloat(props.day) > 0 ? 'caret-up-sharp' : 'caret-down-sharp',
     size: 16,
@@ -18,7 +33,7 @@ const formatToRupiah = (number: number): string => {
   }).format(number).replace('Rp', 'Rp ')
 }
 
-const TokenItemList = (props: any): JSX.Element => {
+const TokenItemList = (props: TokenItemListProps): JSX.Element => {
   return <View style={styles.container}>
       <SvgUri
           width="32"

@@ -3,10 +3,11 @@ import { FlatList, Text, View } from 'react-native'
 import TokenItemList from '../../Component/TokenItemList/TokenItemList.component'
 import { useQuery } from 'react-query'
 import axios from 'axios'
+import { CombineData, priceChanges, supportedCurrencies } from './Market.types'
 
 const fetchSupportedCurrencies = async () => {
-  const supportedCurrencies = await axios.get('https://api.pintu.co.id/v2/wallet/supportedCurrencies')
-  const priceChanges = await axios.get('https://api.pintu.co.id/v2/trade/price-changes')
+  const supportedCurrencies: supportedCurrencies = await axios.get('https://api.pintu.co.id/v2/wallet/supportedCurrencies')
+  const priceChanges: priceChanges = await axios.get('https://api.pintu.co.id/v2/trade/price-changes')
 
   const result = supportedCurrencies?.data.payload.map(item => {
     const tokenPricesChanges = priceChanges.data.payload.find(({ pair }) => pair.split('/')[0] ===
@@ -17,7 +18,7 @@ const fetchSupportedCurrencies = async () => {
   return result
 }
 
-const _renderTokenList = (data: any) => {
+const _renderTokenList = (data: CombineData): JSX.Element => {
   return <FlatList data={data} keyExtractor={(item) => `${item.currencySymbol}`}
                    renderItem={currentItem => <TokenItemList {...currentItem.item}/>}/>
 }
